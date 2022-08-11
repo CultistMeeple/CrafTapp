@@ -37,7 +37,7 @@ abstract class Beer {
     }
 
     public void setImage(String image) {
-        this.image = new Image(image);
+        this.image = new Image("file:src/main/resources/img/beer/" +image);
     }
 
     public Image getImage() {

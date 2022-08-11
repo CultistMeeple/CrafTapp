@@ -21,23 +21,11 @@ import java.util.ResourceBundle;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TreeView;
 
 public class DefaultController implements Initializable {
+
     @FXML
     private Button addButton;
-    @FXML
-    private ImageView beerMug;
-    @FXML
-    private Button homeButton;
-    @FXML
-    private TextField searchBar;
-    @FXML
-    private Button searchButton;
-    @FXML
-    private ImageView cartIcon;
-    @FXML
-    private Button cartButton;
     @FXML
     private Button beerBuy1;
     @FXML
@@ -51,6 +39,10 @@ public class DefaultController implements Initializable {
     @FXML
     private Button beerBuy6;
     @FXML
+    private Button beerBuy7;
+    @FXML
+    private Button beerBuy8;
+    @FXML
     private ImageView beerImage1;
     @FXML
     private ImageView beerImage2;
@@ -63,6 +55,10 @@ public class DefaultController implements Initializable {
     @FXML
     private ImageView beerImage6;
     @FXML
+    private ImageView beerImage7;
+    @FXML
+    private ImageView beerImage8;
+    @FXML
     private Label beerLabel1;
     @FXML
     private Label beerLabel2;
@@ -74,23 +70,42 @@ public class DefaultController implements Initializable {
     private Label beerLabel5;
     @FXML
     private Label beerLabel6;
-
+    @FXML
+    private Label beerLabel7;
+    @FXML
+    private Label beerLabel8;
+    @FXML
+    private ImageView beerMug;
+    @FXML
+    private Button cartButton;
+    @FXML
+    private ImageView cartIcon;
+    @FXML
+    private CheckBox checkBox0;
+    @FXML
+    private CheckBox checkBox1;
+    @FXML
+    private CheckBox checkBox2;
+    @FXML
+    private CheckBox checkBox3;
+    @FXML
+    private CheckBox checkBox4;
+    @FXML
+    private CheckBox checkBox5;
+    @FXML
+    private CheckBox checkBox6;
+    @FXML
+    private Button homeButton;
+    @FXML
+    private TextField searchBar;
+    @FXML
+    private Button searchButton;
     @FXML
     private Label title;
     private Stage stage;
     private Scene scene;
     private Parent root;
-    @FXML
-    private TreeView<String> treeView;
-    @FXML
-    void selectItem(MouseEvent event) {
 
-        TreeItem<String>item = treeView.getSelectionModel().getSelectedItem();
-
-        if (item != null) {
-            System.out.println(item.getValue());
-        }
-    }
     @FXML
     public void switchToHome (ActionEvent event) throws IOException {
 
@@ -99,7 +114,6 @@ public class DefaultController implements Initializable {
         scene = new Scene(root, 335,600);
         stage.setScene(scene);
         stage.show();
-
     }
     @FXML
     public void switchToAddBeer(ActionEvent event) throws IOException {
@@ -127,12 +141,19 @@ public class DefaultController implements Initializable {
         stage.show();
     }
 
+
+    @FXML
+    void filterCheckBoxChoice(ActionEvent event) {
+
+    }
+
     @FXML
     void addToShoppingCart(MouseEvent event) {
 
     }
 
     @FXML
+
     void switchToCart(ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("cart.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -145,23 +166,18 @@ public class DefaultController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        TreeItem<String> treeRoot = new TreeItem<>("Latvia");
-        TreeItem <String> branch1 = new TreeItem<>("Breweries");
-        TreeItem <String> branch2 = new TreeItem<>("Beers");
-
         BreweryLatvia malduguns = new BreweryLatvia("Malduguns");
         BeerIPA sanslide = new BeerIPA("Sanslide", malduguns,3.62);
-        sanslide.setImage("file:src/main/resources/img/beer/sanslide.jpg");
+        sanslide.setImage("sanslide.jpg");
 
         beerImage2.setImage(sanslide.getImage());
         beerLabel2.setText(sanslide.getName());
-        beerLabel1.setText("LOOOOOL");
 
-        if (treeView != null) {
-            treeView.setRoot(treeRoot);
-            treeRoot.getChildren().add(branch1);
-            branch1.getChildren().add(branch2);
-        }
+        checkBox0.setText(String.valueOf(TypesOfBeer.IPA));
+        checkBox1.setText(String.valueOf(TypesOfBeer.Lager));
+        checkBox2.setText(String.valueOf(TypesOfBeer.Stout));
+        checkBox3.setText(String.valueOf(TypesOfBeer.Porter));
+        checkBox4.setText(String.valueOf(TypesOfBeer.Other));
 
         searchBar.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -184,6 +200,7 @@ public class DefaultController implements Initializable {
             public void handle(ActionEvent event) {
 
                 try {
+
                     switchToAddBeer(event);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -202,7 +219,6 @@ public class DefaultController implements Initializable {
                 }
             }
         });
-
     }
 
 }
