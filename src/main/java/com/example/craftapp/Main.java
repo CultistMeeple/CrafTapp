@@ -16,6 +16,12 @@ public class Main extends Application {
         stage.show();
     }
 
+    @Override
+    public void init() throws Exception {
+        super.init();
+
+    }
+
     public static void main(String[] args) {
         launch();
     }

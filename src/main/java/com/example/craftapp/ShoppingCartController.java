@@ -8,7 +8,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -18,62 +17,50 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TreeView;
+public class ShoppingCartController implements Initializable {
 
-public class DefaultController implements Initializable {
     @FXML
     private Button addButton;
     @FXML
+    private TextField beerBrewery;
+    @FXML
     private ImageView beerMug;
+    @FXML
+    private TextField beerName;
+    @FXML
+    private TextField beerType;
     @FXML
     private Button homeButton;
     @FXML
     private TextField searchBar;
     @FXML
+    private TextField breweryAdress;
+    @FXML
+    private TextField breweryWebsite;
+    @FXML
     private Button searchButton;
+    @FXML
+    private Button submitButton;
+    @FXML
+    private RadioButton radioBeer;
+    @FXML
+    private RadioButton radioBrewery;
+    @FXML
+    private RadioButton radioShop;
+    @FXML
+    private TextField shopAdress;
+    @FXML
+    private TextField shopCity;
+    @FXML
+    private TextField shopCountry;
+    @FXML
+    private TextField shopName;
+    @FXML
+    private TextField shopWebsite;
     @FXML
     private ImageView cartIcon;
     @FXML
     private Button cartButton;
-    @FXML
-    private Button beerBuy1;
-    @FXML
-    private Button beerBuy2;
-    @FXML
-    private Button beerBuy3;
-    @FXML
-    private Button beerBuy4;
-    @FXML
-    private Button beerBuy5;
-    @FXML
-    private Button beerBuy6;
-    @FXML
-    private ImageView beerImage1;
-    @FXML
-    private ImageView beerImage2;
-    @FXML
-    private ImageView beerImage3;
-    @FXML
-    private ImageView beerImage4;
-    @FXML
-    private ImageView beerImage5;
-    @FXML
-    private ImageView beerImage6;
-    @FXML
-    private Label beerLabel1;
-    @FXML
-    private Label beerLabel2;
-    @FXML
-    private Label beerLabel3;
-    @FXML
-    private Label beerLabel4;
-    @FXML
-    private Label beerLabel5;
-    @FXML
-    private Label beerLabel6;
 
     @FXML
     private Label title;
@@ -99,7 +86,6 @@ public class DefaultController implements Initializable {
         scene = new Scene(root, 335,600);
         stage.setScene(scene);
         stage.show();
-
     }
     @FXML
     public void switchToAddBeer(ActionEvent event) throws IOException {
@@ -148,14 +134,6 @@ public class DefaultController implements Initializable {
         TreeItem<String> treeRoot = new TreeItem<>("Latvia");
         TreeItem <String> branch1 = new TreeItem<>("Breweries");
         TreeItem <String> branch2 = new TreeItem<>("Beers");
-
-        BreweryLatvia malduguns = new BreweryLatvia("Malduguns");
-        BeerIPA sanslide = new BeerIPA("Sanslide", malduguns,3.62);
-        sanslide.setImage("file:src/main/resources/img/beer/sanslide.jpg");
-
-        beerImage2.setImage(sanslide.getImage());
-        beerLabel2.setText(sanslide.getName());
-        beerLabel1.setText("LOOOOOL");
 
         if (treeView != null) {
             treeView.setRoot(treeRoot);
