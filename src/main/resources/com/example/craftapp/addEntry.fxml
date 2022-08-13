@@ -75,7 +75,7 @@
                   <Pane prefHeight="442.0" prefWidth="197.0">
                      <children>
                         <TextField fx:id="beerName" layoutX="5.0" layoutY="10.0" prefHeight="25.0" prefWidth="180.0" promptText="Name" />
-                        <TextField fx:id="beerBrewery" layoutX="5.0" layoutY="40.0" prefHeight="25.0" prefWidth="180.0" promptText="com.example.craftapp.Brewery" />
+                        <TextField fx:id="beerBrewery" layoutX="5.0" layoutY="40.0" prefHeight="25.0" prefWidth="180.0" promptText="Brewery" />
                         <TextField fx:id="beerType" layoutX="5.0" layoutY="70.0" prefHeight="25.0" prefWidth="180.0" promptText="Type" />
                         <TextField fx:id="beerPrice" layoutX="5.0" layoutY="100.0" prefHeight="25.0" prefWidth="180.0" promptText="Price" />
                         <Button fx:id="submitButton" focusTraversable="false" layoutX="70.0" layoutY="200.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Submit" />

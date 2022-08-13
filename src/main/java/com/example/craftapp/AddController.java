@@ -180,7 +180,6 @@ public class AddController implements Initializable {
                 }
             }
         });
-
     }
 
 }

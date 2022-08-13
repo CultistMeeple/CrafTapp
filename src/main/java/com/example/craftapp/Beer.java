@@ -23,6 +23,10 @@ abstract class Beer {
         discount = 0;
     }
 
+    public String getType() {
+        return String.valueOf(type);
+    }
+
     public void setDiscount(double discount) {
         if (discount == 0) {
             isOnSale = false;
@@ -43,4 +47,14 @@ abstract class Beer {
     public Image getImage() {
         return image;
     }
+    public double getPrice() {
+        return price;
+    }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 }
+
+
