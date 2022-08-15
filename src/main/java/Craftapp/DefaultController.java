@@ -21,7 +21,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.Collator;
+import java.text.ParseException;
+import java.text.RuleBasedCollator;
 import java.util.*;
 
 import javafx.scene.control.Button;
@@ -56,7 +57,7 @@ public class DefaultController implements Initializable {
     @FXML
     private ChoiceBox <String>choiceBox;
     private final String[] sort = {"Sort by name [a-z]", "Sort by name [z-a]", "Sort by price [low - high]", "Sort by price [high-low]"};
-
+    RuleBasedCollator lvCollator;
     private ShoppingCart shoppingCart;
     private ArrayList<Beer> listOfBeers = Main.listOfBeers;
     private ArrayList <CheckBox> listOfCheckBoxes;
@@ -66,6 +67,12 @@ public class DefaultController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        try {
+            lvCollator = new RuleBasedCollator(getLatvianRules());
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
 
         shoppingCart = Main.shoppingCart;
         listOfCheckBoxes = new ArrayList<>();
@@ -193,12 +200,23 @@ public class DefaultController implements Initializable {
     }
     public void sortBeerByName (ArrayList <Beer> list) {
 
+        //Collator collator = Collator.getInstance(new Locale("lv"));
+        //collator.setStrength(Collator.PRIMARY);
+        //collator.setDecomposition(Collator.FULL_DECOMPOSITION);
+
+        //Had issues sorting, because default Collator had some rules wrong, like, completely missing ā,Ā,
+        //Comparator was putting š,Š last;
+        //Introduced RuleBasedCollator with my own set of rules;
+
+        //https://docs.oracle.com/javase/tutorial/i18n/text/rule.html
+        //https://docs.oracle.com/javase/9/docs/api/java/text/RuleBasedCollator.html
+
         switch (choiceBox.getValue()) {
             // Sort alphabetically [a-z]
-            case "Sort by name [a-z]" ->list.sort(new Comparator<Beer>() {
+            case "Sort by name [a-z]"  ->list.sort(new Comparator<Beer>() {
                 @Override
                 public int compare(Beer o1, Beer o2) {
-                    return o1.getName().compareTo(o2.getName());
+                    return lvCollator.compare(o1.getName(), o2.getName());
                 }
             });
 
@@ -206,7 +224,7 @@ public class DefaultController implements Initializable {
             case "Sort by name [z-a]" -> list.sort(new Comparator<Beer>() {
                     @Override
                     public int compare(Beer o1, Beer o2) {
-                        return -(o1.getName().compareTo(o2.getName()));
+                        return -(lvCollator.compare(o1.getName(), o2.getName()));
                     }
                 });
         }
@@ -227,8 +245,7 @@ public class DefaultController implements Initializable {
 
                     //If the prices are the same, compares names instead;
                     if (price1.equals(price2)) {
-                        //Must be negative
-                        return -(o1.getName().compareTo(o2.getName()));
+                        return lvCollator.compare(o1.getName(), o2.getName());
                     }
                     return price1.compareTo(price2);
                 }
@@ -238,7 +255,6 @@ public class DefaultController implements Initializable {
                 case "Sort by price [high-low]" -> list.sort(new Comparator<Beer>() {
                     @Override
                     public int compare(Beer o1, Beer o2) {
-
                         // Need to convert to Double, because compareTo() doesn't work with primitive type;
                         Double price1 = o1.getPrice();
                         Double price2 = o2.getPrice();
@@ -246,8 +262,7 @@ public class DefaultController implements Initializable {
                         //If the prices are the same, compares names instead;
                         if (price1.equals(price2)) {
 
-                            //Must be negative
-                            return -(o1.getName().compareTo(o2.getName()));
+                            return lvCollator.compare(o1.getName(), o2.getName());
                         }
                         return -(price1.compareTo(price2));
                     }
@@ -331,6 +346,16 @@ public class DefaultController implements Initializable {
         if (shoppingCart.getTotal() > 0) {
             cartButton.setStyle("-fx-background-color:#facb89");
         }
+    }
+
+    public String getLatvianRules() {
+        String latvianRules = ("< a,A < ā,Ā < b,B < c,C < č,Č < d,D < e,E < ē,Ē < f,F " +
+                "< g,G < ģ,Ģ < h,H < i,I < ī,Ī < j,J < k,K < ķ,Ķ < l,L < ļ,Ļ " +
+                "< m,M < n,N < ņ,Ņ < o,O < p,P < q,Q < r,R " +
+                "< s,S < š,Š < t,T < u,U < ū,Ū < v,V < w,W < x,X " +
+                "< y,Y < z,Z < ž,Ž");
+
+        return latvianRules;
     }
 
     @FXML
