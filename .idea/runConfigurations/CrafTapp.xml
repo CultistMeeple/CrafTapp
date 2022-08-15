@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="CrafTapp" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="com.example.craftapp.Main" />
+    <option name="MAIN_CLASS_NAME" value="Craftapp.Main" />
     <module name="CrafTapp" />
     <method v="2">
       <option name="Make" enabled="true" />

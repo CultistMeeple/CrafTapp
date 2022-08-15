@@ -7,6 +7,12 @@ module com.example.craftapp {
     //requires validatorfx;
     requires org.kordamp.bootstrapfx.core;
 
-    opens com.example.craftapp to javafx.fxml;
-    exports com.example.craftapp;
+    opens Craftapp to javafx.fxml;
+    exports Craftapp;
+    exports Craftapp.domain;
+    opens Craftapp.domain to javafx.fxml;
+    exports Craftapp.domain.Beer;
+    opens Craftapp.domain.Beer to javafx.fxml;
+    exports Craftapp.domain.Brewery;
+    opens Craftapp.domain.Brewery to javafx.fxml;
 }
