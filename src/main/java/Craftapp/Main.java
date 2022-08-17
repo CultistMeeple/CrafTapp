@@ -7,11 +7,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.RuleBasedCollator;
 import java.util.ArrayList;
 
 public class Main extends Application {
     public static ArrayList <Beer> listOfBeers;
     public static ShoppingCart shoppingCart;
+    public static RuleBasedCollator lvCollator;
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("default.fxml"));
@@ -26,12 +29,35 @@ public class Main extends Application {
         listOfBeers = new ArrayList<>();
         shoppingCart = new ShoppingCart();
         addBeers(listOfBeers);
+
+        //Had issues sorting, because default Collator had some rules wrong, like, completely missing ā,Ā,
+        //Comparator was putting š,Š last;
+        //Introduced RuleBasedCollator with my own set of rules;
+
+        //https://docs.oracle.com/javase/tutorial/i18n/text/rule.html
+        //https://docs.oracle.com/javase/9/docs/api/java/text/RuleBasedCollator.html
+        try {
+            lvCollator = new RuleBasedCollator(getLatvianRules());
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
         super.init();
 
     }
 
     public static void main(String[] args) {
         launch();
+    }
+
+    public String getLatvianRules() {
+        String latvianRules = ("< a,A < ā,Ā < b,B < c,C < č,Č < d,D " +
+                "< e,E < ē,Ē < f,F < g,G < ģ,Ģ < h,H < i,I < ī,Ī < j,J " +
+                "< k,K < ķ,Ķ < l,L < ļ,Ļ < m,M < n,N < ņ,Ņ < o,O < p,P " +
+                "< q,Q < r,R < s,S < š,Š < t,T < u,U < ū,Ū < v,V < w,W " +
+                "< x,X < y,Y < z,Z < ž,Ž");
+
+        return latvianRules;
     }
     public static void addBeers(ArrayList<Beer> list) {
 
