@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -23,6 +24,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.RuleBasedCollator;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -39,8 +42,6 @@ public class DefaultController implements Initializable {
     private TextField searchBar;
     @FXML
     private Button searchButton;
-    @FXML
-    private SplitPane splitPane;
     @FXML
     private TilePane tilePane;
     @FXML
@@ -63,14 +64,30 @@ public class DefaultController implements Initializable {
     private Scene scene;
     private Parent root;
     private RuleBasedCollator lvCollator;
-
+    @FXML
+    private Pane navigationPane;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         lvCollator = Main.lvCollator;
         shoppingCart = Main.shoppingCart;
         listOfCheckBoxes = new ArrayList<>();
+
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("navigation.fxml"));
+            Pane parent = loader.load();
+            parent = (Pane)parent.getChildren().get(0);
+            searchButton = (Button)parent.getChildren().get(0);
+            addButton = (Button)parent.getChildren().get(1);
+            homeButton = (Button)parent.getChildren().get(2);
+            choiceBox = (ChoiceBox<String>)parent.getChildren().get(3);
+            searchBar = (TextField) parent.getChildren().get(4);
+            navigationPane.getChildren().addAll(searchButton, addButton, homeButton, choiceBox, searchBar);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         choiceBox.getItems().addAll(sort);
         choiceBox.setValue(sort[0]);
@@ -100,6 +117,26 @@ public class DefaultController implements Initializable {
         Pane testPane = (Pane) titlePane.getChildren().get(0);
         cartButton = (Button) testPane.getChildren().get(2);
         setCartButtonText();
+        searchBar.setOnKeyTyped(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                    search();
+                }
+        });
+
+        searchButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                search();
+
+                try {
+                    switchToResults(event);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
 
             addButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
@@ -122,6 +159,36 @@ public class DefaultController implements Initializable {
                     }
                 }
             });
+    }
+
+    private void search() {
+        String input = searchBar.getText();
+        input = input.trim();
+
+        if (!input.isEmpty()){
+            ArrayList <Beer> results = new ArrayList<>();
+
+            String first = String.valueOf(input.charAt(0));
+            String regexFirst = "(" + first.toUpperCase() + "|" + first.toLowerCase() + ")";
+            String rest = input.replaceFirst(regexFirst, "");
+            String regex = regexFirst + "(" + rest + ")";
+
+            Pattern pattern = Pattern.compile(regex);
+
+            for (Beer beer : listOfBeers) {
+
+                Matcher matcher = pattern.matcher(beer.getName());
+                boolean match = matcher.find();
+
+                if (match) {
+                    results.add(beer);
+                }
+            }
+            generateBeer(results);
+
+        } else {
+            filterCheckBoxChoice();
+        }
     }
 
     //Populates the right side of SplitPane with Beer class objects and adds functionality from ItemController;
@@ -195,6 +262,7 @@ public class DefaultController implements Initializable {
     }
     public void sortBeerByName (ArrayList <Beer> list) {
 
+        //Switch does not allow array values to be used as expressions, thus strings are written in each case check.
         switch (choiceBox.getValue()) {
             // Sort alphabetically [a-z]
             case "Sort by name [a-z]"  ->list.sort(new Comparator<Beer>() {
@@ -216,6 +284,7 @@ public class DefaultController implements Initializable {
 
     public void sortBeerByPrice(ArrayList <Beer> list) {
 
+        //Switch does not allow array values to be used as expressions, thus strings are written in each case check.
         switch (choiceBox.getValue()) {
 
             // Sort by price [low-high]
@@ -308,14 +377,12 @@ public class DefaultController implements Initializable {
 
     public void addToShoppingCart(String id) throws IOException {
 
+        //Gets buyButton id, removes "buy" substring, so that only an int is remaining, then it is passed as index to listOfBeers.
         String replace = id.substring(0, 3);
         id = id.replace(replace, "");
-
-
         int index = Integer.parseInt(id);
 
         shoppingCart.add(listOfBeers.get(index));
-        System.out.println(shoppingCart);
         setCartButtonText();
     }
 
@@ -330,6 +397,14 @@ public class DefaultController implements Initializable {
         if (shoppingCart.getTotal() > 0) {
             cartButton.setStyle("-fx-background-color:#facb89");
         }
+    }
+
+    public void switchToResults (ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("results.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root, 335,600);
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML

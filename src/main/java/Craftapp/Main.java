@@ -16,7 +16,8 @@ public class Main extends Application {
     public static ShoppingCart shoppingCart;
     public static RuleBasedCollator lvCollator;
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) throws IOException, InterruptedException {
+
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("default.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 335, 600);
         stage.setTitle("CrafTapp");
@@ -26,9 +27,25 @@ public class Main extends Application {
 
     @Override
     public void init() throws Exception {
+
         listOfBeers = new ArrayList<>();
         shoppingCart = new ShoppingCart();
         addBeers(listOfBeers);
+
+        try {
+            lvCollator = new RuleBasedCollator(getLatvianRules());
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        super.init();
+    }
+
+
+    public static void main(String[] args) {
+        launch();
+    }
+
+    public String getLatvianRules() {
 
         //Had issues sorting, because default Collator had some rules wrong, like, completely missing ā,Ā,
         //Comparator was putting š,Š last;
@@ -36,21 +53,7 @@ public class Main extends Application {
 
         //https://docs.oracle.com/javase/tutorial/i18n/text/rule.html
         //https://docs.oracle.com/javase/9/docs/api/java/text/RuleBasedCollator.html
-        try {
-            lvCollator = new RuleBasedCollator(getLatvianRules());
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
 
-        super.init();
-
-    }
-
-    public static void main(String[] args) {
-        launch();
-    }
-
-    public String getLatvianRules() {
         String latvianRules = ("< a,A < ā,Ā < b,B < c,C < č,Č < d,D " +
                 "< e,E < ē,Ē < f,F < g,G < ģ,Ģ < h,H < i,I < ī,Ī < j,J " +
                 "< k,K < ķ,Ķ < l,L < ļ,Ļ < m,M < n,N < ņ,Ņ < o,O < p,P " +
@@ -65,7 +68,7 @@ public class Main extends Application {
         BreweryLatvia odu = new BreweryLatvia("Odu");
         BreweryLatvia viedi = new BreweryLatvia("Viedi");
         BreweryLatvia hopalaa = new BreweryLatvia("Hopalaa");
-        BreweryLatvia indieJanis = new BreweryLatvia("Indie Janis");
+        BreweryLatvia indieJanis = new BreweryLatvia("Indie Jānis");
         BreweryLatvia duna = new BreweryLatvia("Duna");
 
         BeerIPA sanslide = new BeerIPA("Sānslīde", malduguns, 3.62);
@@ -124,5 +127,6 @@ public class Main extends Application {
         juicyPaleAle.setImage("juicy pale ale.jpg");
         list.add(juicyPaleAle);
     }
+
 }
 

@@ -1,32 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.TilePane?>
-<?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="335.0" spacing="5.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Craftapp.DefaultController">
-    <padding>
-        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-    </padding>
+<AnchorPane prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Craftapp.DefaultController">
    <children>
-      <Pane fx:id="titlePane" prefHeight="70.0" prefWidth="325.0" />
-      <Pane prefHeight="65.0" prefWidth="325.0">
-         <children>
-            <TextField id="search" fx:id="searchBar" alignment="CENTER" focusTraversable="false" layoutY="10.0" prefHeight="25.0" prefWidth="255.0" promptText="Search" />
-            <Button fx:id="searchButton" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="263.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Search" />
-            <Button fx:id="addButton" focusTraversable="false" layoutX="55.0" layoutY="40.0" mnemonicParsing="false" prefWidth="50.0" text="Add" />
-            <Button fx:id="homeButton" focusTraversable="false" layoutY="40.0" mnemonicParsing="false" prefWidth="50.0" text="Home" />
-            <ChoiceBox fx:id="choiceBox" focusTraversable="false" layoutX="110.0" layoutY="40.0" prefHeight="25.0" prefWidth="160.0" />
-         </children>
-      </Pane>
-      <SplitPane fx:id="splitPane" dividerPositions="0.3" prefHeight="460.0" prefWidth="325.0">
+      <Pane fx:id="titlePane" layoutX="5.0" layoutY="5.0" prefHeight="70.0" prefWidth="335.0" />
+      <SplitPane fx:id="splitPane" dividerPositions="0.3" layoutX="3.0" layoutY="140.0" prefHeight="460.0" prefWidth="335.0">
         <items>
           <AnchorPane fx:id="leftPane" maxWidth="135.0" minHeight="0.0" minWidth="0.0" prefHeight="460.0" prefWidth="135.0" />
           <AnchorPane minHeight="0.0" minWidth="224.0" prefWidth="224.0">
@@ -44,5 +28,9 @@
             </AnchorPane>
         </items>
       </SplitPane>
+      <Pane fx:id="navigationPane" layoutX="5.0" layoutY="70.0" prefHeight="65.0" prefWidth="335.0" />
    </children>
-</VBox>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+</AnchorPane>
