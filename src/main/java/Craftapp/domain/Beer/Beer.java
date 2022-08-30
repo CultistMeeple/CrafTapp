@@ -5,8 +5,8 @@ import javafx.scene.image.Image;
 
 public abstract class Beer{
     private String name;
-    private Brewery brewery;
-    private TypesOfBeer type;
+    private final Brewery brewery;
+    private Type type;
     private double price;
     private boolean isOnSale;
     private double discount;
@@ -18,7 +18,7 @@ public abstract class Beer{
         this.price = price;
     }
 
-    public void setType(TypesOfBeer type) {
+    public void setType(Type type) {
         this.type = type;
         isOnSale = false;
         discount = 0;
@@ -28,6 +28,10 @@ public abstract class Beer{
         return String.valueOf(type);
     }
 
+    public Brewery getBrewery() {
+        return brewery;
+    }
+
     public void setDiscount(double discount) {
         if (discount == 0) {
             isOnSale = false;
@@ -35,6 +39,10 @@ public abstract class Beer{
             isOnSale = true;
             this.discount = discount;
         }
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getName() {
@@ -48,6 +56,11 @@ public abstract class Beer{
     public Image getImage() {
         return image;
     }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
     public double getPrice() {
         return price;
     }

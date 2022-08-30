@@ -6,20 +6,27 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.layout.VBox?>
 
 <AnchorPane prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Craftapp.DefaultController">
    <children>
       <Pane fx:id="titlePane" layoutX="5.0" layoutY="5.0" prefHeight="70.0" prefWidth="335.0" />
-      <SplitPane fx:id="splitPane" dividerPositions="0.3" layoutX="3.0" layoutY="140.0" prefHeight="460.0" prefWidth="335.0">
+      <SplitPane fx:id="splitPane" dividerPositions="0.25" layoutY="140.0" prefHeight="460.0" prefWidth="335.0">
         <items>
-          <AnchorPane fx:id="leftPane" maxWidth="135.0" minHeight="0.0" minWidth="0.0" prefHeight="460.0" prefWidth="135.0" />
-          <AnchorPane minHeight="0.0" minWidth="224.0" prefWidth="224.0">
+          <AnchorPane fx:id="leftPane" prefHeight="460.0">
                <children>
-                  <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" minWidth="224.0" prefWidth="224.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox fx:id="checkVBox" prefHeight="458.4" prefWidth="97.6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0" />
+               </children>
+               <opaqueInsets>
+                  <Insets left="5.0" top="5.0" />
+               </opaqueInsets></AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="224.0">
+               <children>
+                  <ScrollPane fx:id="scrollPane" focusTraversable="false" hbarPolicy="NEVER" minWidth="224.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <content>
-                      <AnchorPane fx:id="tileAnchor" minHeight="0.0" minWidth="0.0" prefWidth="224.0">
+                      <AnchorPane fx:id="tileAnchor" minHeight="0.0" minWidth="0.0">
                            <children>
-                              <TilePane fx:id="tilePane" hgap="5.0" minWidth="200.0" prefColumns="3" prefHeight="460.0" prefRows="4" prefTileHeight="150.0" prefTileWidth="105.0" prefWidth="200.0" vgap="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <TilePane fx:id="marketPane" hgap="10.0" minWidth="200.0" prefColumns="2" prefHeight="460.0" prefRows="4" prefTileHeight="140.0" prefTileWidth="105.0" vgap="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0" />
                            </children>
                         </AnchorPane>
                     </content>
@@ -27,8 +34,14 @@
                </children>
             </AnchorPane>
         </items>
+         <padding>
+            <Insets top="5.0" />
+         </padding>
       </SplitPane>
-      <Pane fx:id="navigationPane" layoutX="5.0" layoutY="70.0" prefHeight="65.0" prefWidth="335.0" />
+      <Pane fx:id="navigationPane" layoutY="75.0" prefHeight="65.0" prefWidth="335.0">
+         <padding>
+            <Insets top="10.0" />
+         </padding></Pane>
    </children>
    <opaqueInsets>
       <Insets />

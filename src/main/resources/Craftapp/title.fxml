@@ -13,14 +13,14 @@
       <children>
       <Pane fx:id="titlePane" prefHeight="70.0" prefWidth="325.0">
          <children>
-            <ImageView id="beerMug" fx:id="beerMug" fitHeight="48.0" fitWidth="48.0" layoutX="180.0" layoutY="5.0" onMouseClicked="#switchToHome" pickOnBounds="true" preserveRatio="true">
+            <ImageView id="beerMug" fx:id="hopsIcon" fitHeight="48.0" fitWidth="48.0" layoutX="180.0" layoutY="5.0" onMouseClicked="#switchToHome" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../img/beer48px.png" />
+                  <Image url="@../img/hop.png" />
                </image>
             </ImageView>
-            <Label id="title" fx:id="title" alignment="CENTER" layoutX="75.0" layoutY="5.0" onMouseClicked="#switchToHome" prefHeight="46.0" prefWidth="120.0" text="CrafTapp" textAlignment="CENTER">
+            <Label id="title" fx:id="title" alignment="CENTER" layoutX="100.0" layoutY="10.0" onMouseClicked="#switchToHome" text="Hopp" textAlignment="CENTER">
                <font>
-                  <Font name="System Bold" size="24.0" />
+                  <Font name="Bauhaus 93" size="36.0" />
                </font>
             </Label>
             <Button fx:id="cartButton" alignment="BOTTOM_CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="256.0" mnemonicParsing="false" onAction="#switchToCart" prefHeight="70.0" prefWidth="70.0" text="€ 0.00 " textOverrun="CLIP">
@@ -28,6 +28,21 @@
                   <ImageView fx:id="cartIcon" fitHeight="48.0" fitWidth="48.0" opacity="0.1" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../img/cart48px.png" />
+                     </image>
+                     <rotationAxis>
+                        <Point3D />
+                     </rotationAxis>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font name="Arial Bold" size="13.0" />
+               </font>
+            </Button>
+            <Button fx:id="profileButton" alignment="BOTTOM_CENTER" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="70.0" prefWidth="70.0" textOverrun="CLIP">
+               <graphic>
+                  <ImageView fx:id="profileIcon" fitHeight="48.0" fitWidth="48.0" opacity="0.1" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/user.png" />
                      </image>
                      <rotationAxis>
                         <Point3D />

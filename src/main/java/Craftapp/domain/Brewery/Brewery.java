@@ -17,9 +17,15 @@ public abstract class Brewery {
     public Brewery (String name){
         listOfBeers = new HashMap<>();
         latvianBreweries = new ArrayList<>();
+        this.name = name;
     }
 
     public void setCountry(Countries country) {
         this.country = country;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }
