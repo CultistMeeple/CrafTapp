@@ -52,59 +52,59 @@ public class Main extends Application {
         BreweryLatvia indieJanis = new BreweryLatvia("Indie Jānis");
         BreweryLatvia duna = new BreweryLatvia("Duna");
 
-        BeerIPA sanslide = new BeerIPA("Sānslīde", malduguns, 3.62);
+        BeerIPA sanslide = new BeerIPA("Sānslīde", malduguns, 6.8, 0.5, 3.62);
         sanslide.setImage("sanslide.jpg");
         list.add(sanslide);
 
-        BeerPorter pilotaNakts = new BeerPorter("Pilota Nakts", malduguns, 3.62);
+        BeerPorter pilotaNakts = new BeerPorter("Pilota Nakts", malduguns,7.0, 0.5, 3.62);
         pilotaNakts.setImage("pilota nakts.jpg");
         list.add(pilotaNakts);
 
-        BeerStout coconutDream = new BeerStout("Coconut Dream", odu, 6.23);
+        BeerStout coconutDream = new BeerStout("Coconut Dream", odu, 10, 0.33, 6.23);
         coconutDream.setImage("coconut dream.jpg");
         list.add(coconutDream);
 
-        BeerAle sazobe = new BeerAle("Sazobe", viedi, 3.45);
+        BeerAle sazobe = new BeerAle("Sazobe", viedi,5.8, 0.5, 3.45);
         sazobe.setImage("sazobe.png");
         list.add(sazobe);
 
-        BeerIPA tropical  = new BeerIPA("Tropical", hopalaa, 3.86);
+        BeerIPA tropical  = new BeerIPA("Tropical", hopalaa, 7.3, 0.44, 3.86);
         tropical.setImage("tropical.jpg");
         list.add(tropical);
 
-        BeerIPA dank  = new BeerIPA("Dank", hopalaa, 4.35);
+        BeerIPA dank  = new BeerIPA("Dank", hopalaa,7, 0.44, 4.35);
         dank.setImage("dank.jpg");
         list.add(dank);
 
-        BeerIPA oldSchool = new BeerIPA("Old School", indieJanis, 3.25);
+        BeerIPA oldSchool = new BeerIPA("Old School", indieJanis,5.5, 0.5, 3.25);
         oldSchool.setImage("old school.jpg");
         list.add(oldSchool);
 
-        BeerIPA napoleons = new BeerIPA("Napoleons", indieJanis, 3.05);
+        BeerIPA napoleons = new BeerIPA("Napoleons", indieJanis, 5, 0.5, 3.05);
         napoleons.setImage("napoleons.jpg");
         list.add(napoleons);
 
-        BeerIPA rodeo = new BeerIPA("Rodeo", viedi,3.56);
+        BeerIPA rodeo = new BeerIPA("Rodeo", viedi,5.6, 0.5,3.56);
         rodeo.setImage("rodeo.png");
         list.add(rodeo);
 
-        BeerStout tumsaPuse = new BeerStout("Tumšā Puse", malduguns,3.52);
+        BeerStout tumsaPuse = new BeerStout("Tumšā Puse", malduguns, 11.2, 0.33, 3.52);
         tumsaPuse.setImage("tumsa puse.jpg");
         list.add(tumsaPuse);
 
-        BeerLager svika = new BeerLager("Švīka", malduguns, 3.16);
+        BeerLager svika = new BeerLager("Švīka", malduguns, 5.2, 0.5, 3.16);
         svika.setImage("svika.jpg");
         list.add(svika);
 
-        BeerSour mangoSour = new BeerSour("Mango Sour", duna, 4.90);
+        BeerSour mangoSour = new BeerSour("Mango Sour", duna, 3.8, 0.44, 4.90);
         mangoSour.setImage("mango sour.jpg");
         list.add(mangoSour);
 
-        BeerSour peachSour = new BeerSour("Peach Sour", duna, 4.90);
+        BeerSour peachSour = new BeerSour("Peach Sour", duna, 3.8,0.44, 4.90);
         peachSour.setImage("peach sour.jpg");
         list.add(peachSour);
 
-        BeerAle juicyPaleAle = new BeerAle("Juicy Pale Ale", duna, 4.20);
+        BeerAle juicyPaleAle = new BeerAle("Juicy Pale Ale", duna,4.5, 0.44, 4.20);
         juicyPaleAle.setImage("juicy pale ale.jpg");
         list.add(juicyPaleAle);
     }
