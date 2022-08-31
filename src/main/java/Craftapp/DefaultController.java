@@ -53,6 +53,7 @@ public class DefaultController implements Initializable {
     private final String[] sort = {"Sort by name [a-z]", "Sort by name [z-a]", "Sort by price [low - high]", "Sort by price [high-low]"};
     private ShoppingCart shoppingCart;
     private final ArrayList<Beer> listOfBeers = Main.listOfBeers;
+    private ArrayList <Beer> filteredList;
     private ArrayList <CheckBox> listOfCheckBoxes;
     private Stage stage;
     private Scene scene;
@@ -68,6 +69,7 @@ public class DefaultController implements Initializable {
         shoppingCart = Main.shoppingCart;
         listOfCheckBoxes = new ArrayList<>();
         beerSearcher = Main.beerSearcher;
+        filteredList = new ArrayList<>();
 
         //Sets up navigationPane, with searchBar and navigation buttons.
         try {
@@ -195,13 +197,6 @@ public class DefaultController implements Initializable {
                 marketPane.setPrefRows(list.size() / 2);
             }
 
-            if (list.size()%2 != 0) {
-                //Checks, if the number is odd, otherwise, with odd numbers the pane is too short;
-                tileAnchor.setPrefHeight((double)(list.size() / 2 +1) *160);
-            } else {
-                tileAnchor.setPrefHeight((double)(list.size() / 2) *160);
-            }
-
             //Sorts beer using value of choiceBox;
             sorter.setValue(choiceBox.getValue());
             sorter.sorted(list);
@@ -242,6 +237,17 @@ public class DefaultController implements Initializable {
                 //Setting background color, so that itemHolder appears monolith and casts shadow.
                 itemHolder.setStyle("-fx-background-color:white");
                 marketPane.getChildren().add(itemHolder);
+
+                double vSpacing = marketPane.getVgap();
+                double totalVSpacing = vSpacing * list.size()/2;
+                double prefHeight = itemHolder.getPrefHeight();
+
+                if (list.size()%2 != 0) {
+                    //Checks, if the number is odd, otherwise, with odd numbers the pane is too short;
+                    tileAnchor.setPrefHeight((double)(list.size() / 2 +1) *prefHeight + totalVSpacing +vSpacing);
+                } else {
+                    tileAnchor.setPrefHeight((double)(list.size() / 2) *prefHeight + totalVSpacing +vSpacing);
+                }
             }
 
         } catch (IOException e) {
@@ -274,9 +280,10 @@ public class DefaultController implements Initializable {
         checkVBox.getChildren().addAll(listOfCheckBoxes);
     }
     void filterCheckBoxChoice() {
-
-        ArrayList <Beer> filteredList = new ArrayList<>();
+        //Used to keep track of checked checkBoxes;
         boolean isChecked = false;
+        //Resets contents filteredList;
+        filteredList.clear();
 
         for (CheckBox checkBox : listOfCheckBoxes) {
                     for (Beer beer : listOfBeers) {
@@ -303,7 +310,14 @@ public class DefaultController implements Initializable {
         id = id.replace(replace, "");
         int index = Integer.parseInt(id);
 
-        shoppingCart.add(listOfBeers.get(index));
+        //Chooses, which list to add beer form;
+        if (filteredList.isEmpty()) {
+            shoppingCart.add(listOfBeers.get(index));
+        } else {
+            shoppingCart.add(filteredList.get(index));
+        }
+
+        System.out.println(shoppingCart);
         setCartButtonText();
     }
 
@@ -314,9 +328,19 @@ public class DefaultController implements Initializable {
 
         cartButton.setText("€ " +toPrint);
 
-        if (shoppingCart.getTotal() > 0) {
+        if (total > 0) {
             cartButton.setStyle("-fx-background-color:#66FF66");
+        } else {
+            cartButton.setStyle("");
         }
+    }
+
+    void switchToCart(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("cart.fxml"));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root, 335, 600);
+        stage.setScene(scene);
+        stage.show();
     }
 
     public void switchToResults (ActionEvent event) throws IOException {

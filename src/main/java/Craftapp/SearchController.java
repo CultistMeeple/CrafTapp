@@ -34,8 +34,8 @@ public class SearchController implements Initializable {
     private Stage stage;
     private Scene scene;
     private Parent root;
-    private Searcher <Beer> beerSearcher;
     private TextField searchBar;
+    private Searcher <Beer> beerSearcher;
     private ArrayList <Beer> listOfBeers;
     private final String[] sort = {"Sort by name [a-z]", "Sort by name [z-a]", "Sort by price [low - high]", "Sort by price [high-low]"};
     private Sorter sorter;
@@ -74,10 +74,7 @@ public class SearchController implements Initializable {
         choiceBox.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
-                ArrayList <Beer> list = beerSearcher.getResults();
-
-                generateResults(list);
+                generateResults(beerSearcher.getResults());
             }
         });
 
@@ -114,6 +111,7 @@ public class SearchController implements Initializable {
             @Override
             public void handle(KeyEvent keyEvent) {
                 search();
+
             }
         });
 
@@ -147,12 +145,14 @@ public class SearchController implements Initializable {
             image.setFitWidth(100);
 
             String beerPrice = String.format("%.2f", beer.getPrice());
+            String beerAbv = String.format("%.1f", beer.getAbv());
             beerPrice = "€ "+ beerPrice;
             sb.append(beer.getName())
                     .append("\n")
                     .append(beerPrice)
                     .append("\n")
                     .append(beer.getType())
+                    .append("\n").append(beerAbv).append("%")
                     .append("\n")
                     .append(beer.getBrewery());
 
