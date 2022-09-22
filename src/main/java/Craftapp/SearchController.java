@@ -6,14 +6,10 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -30,10 +26,6 @@ public class SearchController implements Initializable {
     private ChoiceBox <String> choiceBox;
     private ShoppingCart shoppingCart;
     private Button cartButton;
-    private Button searchButton;
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
     private TextField searchBar;
     private Searcher <Beer> beerSearcher;
     private ArrayList <Beer> listOfBeers;
@@ -47,7 +39,6 @@ public class SearchController implements Initializable {
         listOfBeers = Main.listOfBeers;
         sorter = Main.sorter;
 
-        Button homeButton;
         //Sets up navigationPane, with searchBar and navigation buttons.
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -57,10 +48,7 @@ public class SearchController implements Initializable {
             HBox hBox = (HBox) vBox.getChildren().get(0);
             HBox hBox1 = (HBox) vBox.getChildren().get(1);
 
-            Button addButton = (Button)hBox1.getChildren().get(1);
-            homeButton = (Button)hBox1.getChildren().get(0);
             choiceBox = (ChoiceBox<String>)hBox1.getChildren().get(2);
-            searchButton = (Button)hBox.getChildren().get(1);
             searchBar = (TextField) hBox.getChildren().get(0);
             navigationPane.getChildren().add(vBox);
 
@@ -68,26 +56,13 @@ public class SearchController implements Initializable {
             throw new RuntimeException(e);
         }
 
+        //searchBar.setOnKeyTyped is here so that results automatically update and are shown for user.
+        searchBar.setOnKeyTyped(keyEvent -> search());
+
         choiceBox.getItems().addAll(sort);
         choiceBox.setValue(sort[0]);
 
-        choiceBox.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                generateResults(beerSearcher.getResults());
-            }
-        });
-
-        homeButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                try {
-                    switchToHome(event);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
+        choiceBox.setOnAction(event -> generateResults(beerSearcher.getResults()));
 
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -102,25 +77,13 @@ public class SearchController implements Initializable {
 
         Pane testPane = (Pane) titlePane.getChildren().get(0);
         cartButton = (Button) testPane.getChildren().get(2);
+
         setCartButtonText();
+
+        searchBar.setText(beerSearcher.getPhrase());
 
         generateResults(beerSearcher.getResults());
 
-        searchBar.setText(beerSearcher.getPhrase());
-        searchBar.setOnKeyTyped(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                search();
-
-            }
-        });
-
-        searchButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                search();
-            }
-        });
     }
 
     public void generateResults(ArrayList<Beer> list) {
@@ -151,7 +114,7 @@ public class SearchController implements Initializable {
                     .append("\n")
                     .append(beerPrice)
                     .append("\n")
-                    .append(beer.getType())
+                    .append(beer.getStyle())
                     .append("\n").append(beerAbv).append("%")
                     .append("\n")
                     .append(beer.getBrewery());
@@ -161,6 +124,7 @@ public class SearchController implements Initializable {
             HBox hBox = new HBox();
             hBox.setSpacing(5);
             hBox.getChildren().addAll(image,beerInfo);
+            hBox.getStyleClass().add("item");
 
             //Clears the StringBuilder
             sb.setLength(0);
@@ -168,6 +132,16 @@ public class SearchController implements Initializable {
             resultsView.setSpacing(5);
             resultsView.getChildren().add(hBox);
         }
+    }
+
+    private void search() {
+        String input = searchBar.getText();
+        input = input.trim();
+        //Clear to reset the internal list.
+        beerSearcher.clear();
+        beerSearcher.setPhrase(input);
+        beerSearcher.searchList(listOfBeers);
+        generateResults(beerSearcher.getResults());
     }
 
 
@@ -181,23 +155,5 @@ public class SearchController implements Initializable {
         if (shoppingCart.getTotal() > 0) {
             cartButton.setStyle("-fx-background-color:#66FF66");
         }
-    }
-
-    public void switchToHome (ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("default.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root, 335,600);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    private void search() {
-        String input = searchBar.getText();
-        input = input.trim();
-        //Clear to reset the internal list.
-        beerSearcher.clear();
-        beerSearcher.setPhrase(input);
-        beerSearcher.searchList(listOfBeers);
-        generateResults(beerSearcher.getResults());
     }
 }

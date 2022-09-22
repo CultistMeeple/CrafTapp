@@ -6,7 +6,7 @@ public class BeerIPA extends Beer {
 
     public BeerIPA(String name, Brewery brewery, double abv, double volume, double price) {
         super(name, brewery, abv, volume, price);
-        setType(Type.IPA);
+        setStyle(Style.IPA);
     }
 
 }

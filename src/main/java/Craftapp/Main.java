@@ -13,13 +13,18 @@ public class Main extends Application {
     protected static ArrayList <Beer> listOfBeers;
     protected static Searcher <Beer> beerSearcher;
     protected static ShoppingCart shoppingCart;
+    public static SceneSwitcher switcher;
     public static Sorter sorter;
+    private int width;
+    private int height;
 
     @Override
     public void start(Stage stage) throws IOException {
 
+        switcher.setStage(stage);
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("default.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 335, 600);
+        Scene scene = new Scene(fxmlLoader.load(), width, height);
+        scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
         stage.setTitle("Hopp");
         stage.setScene(scene);
         stage.show();
@@ -28,6 +33,9 @@ public class Main extends Application {
     @Override
     public void init() throws Exception {
 
+        width = 335;
+        height = 600;
+        switcher = new SceneSwitcher(width, height);
         listOfBeers = new ArrayList<>();
         shoppingCart = new ShoppingCart();
         beerSearcher = new Searcher<>();

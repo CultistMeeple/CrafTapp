@@ -28,7 +28,7 @@
                         <Font name="System Bold" size="24.0" />
                     </font>
                 </Label>
-                <Button fx:id="cartButton" focusTraversable="false" layoutX="260.0" mnemonicParsing="false" onAction="#switchToCart">
+                <Button fx:id="cartButton" focusTraversable="false" layoutX="260.0" mnemonicParsing="false">
                     <graphic>
                         <ImageView fx:id="cartIcon" fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -41,9 +41,7 @@
                     </graphic>
                 </Button>
                 <ImageView id="beerMug" fx:id="beerMug" fitHeight="48.0" fitWidth="48.0" layoutX="160.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../img/beer48px.png" />
-                    </image>
+
                 </ImageView>
             </children>
         </Pane>

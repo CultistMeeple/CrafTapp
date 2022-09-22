@@ -6,6 +6,6 @@ public class BeerStout extends Beer {
 
     public BeerStout(String name, Brewery brewery,double abv, double volume, double price) {
         super(name, brewery, abv, volume, price);
-        setType(Type.Stout);
+        setStyle(Style.Stout);
     }
 }

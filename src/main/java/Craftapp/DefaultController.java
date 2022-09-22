@@ -1,21 +1,17 @@
 package Craftapp;
 
 import Craftapp.domain.Beer.Beer;
-import Craftapp.domain.Beer.Type;
+import Craftapp.domain.Beer.Style;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -27,15 +23,9 @@ import javafx.scene.control.TextField;
 
 public class DefaultController implements Initializable {
     @FXML
-    private Button addButton;
-    @FXML
     public Button cartButton;
     @FXML
-    private Button homeButton;
-    @FXML
     private TextField searchBar;
-    @FXML
-    private Button searchButton;
     @FXML
     private TilePane marketPane;
     @FXML
@@ -55,16 +45,15 @@ public class DefaultController implements Initializable {
     private final ArrayList<Beer> listOfBeers = Main.listOfBeers;
     private ArrayList <Beer> filteredList;
     private ArrayList <CheckBox> listOfCheckBoxes;
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
     @FXML
     private Pane navigationPane;
     private Searcher <Beer> beerSearcher;
     private Sorter sorter;
+    private SceneSwitcher switcher;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        switcher = Main.switcher;
         sorter = Main.sorter;
         shoppingCart = Main.shoppingCart;
         listOfCheckBoxes = new ArrayList<>();
@@ -80,10 +69,7 @@ public class DefaultController implements Initializable {
             HBox hBox = (HBox) vBox.getChildren().get(0);
             HBox hBox1 = (HBox) vBox.getChildren().get(1);
 
-            addButton = (Button)hBox1.getChildren().get(1);
-            homeButton = (Button)hBox1.getChildren().get(0);
             choiceBox = (ChoiceBox<String>)hBox1.getChildren().get(2);
-            searchButton = (Button)hBox.getChildren().get(1);
             searchBar = (TextField) hBox.getChildren().get(0);
             navigationPane.getChildren().add(vBox);
 
@@ -91,49 +77,18 @@ public class DefaultController implements Initializable {
             throw new RuntimeException(e);
         }
 
-        searchBar.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                search();
-
-                try {
-                    switchToResults(event);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
-        });
-
         //Shows the previous search.
         searchBar.setText(beerSearcher.getPhrase());
 
-        searchButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                search();
-
-                try {
-                    switchToResults(event);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
-
         choiceBox.getItems().addAll(sort);
         choiceBox.setValue(sort[0]);
-        choiceBox.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                // filterCheckBoxChoice() already contains generateBeer() method;
-                //generateBeer() contains sortBeer();
-                filterCheckBoxChoice();
-            }
+        choiceBox.setOnAction(event -> {
+            // filterCheckBoxChoice() already contains generateBeer() method;
+            //generateBeer() contains sortBeer();
+            filterCheckBoxChoice();
         });
 
         generateCheckBoxes();
-
         //Populates the market "window" with products.
         generateBeer(listOfBeers);
 
@@ -152,35 +107,6 @@ public class DefaultController implements Initializable {
         cartButton = (Button) testPane.getChildren().get(2);
         setCartButtonText();
 
-            addButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-
-                    try {
-                        switchToAddBeer(event);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            });
-            homeButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    try {
-                        switchToHome(event);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            });
-    }
-
-    private void search() {
-        String input = searchBar.getText();
-        input = input.trim();
-        beerSearcher.clear();
-        beerSearcher.setPhrase(input);
-        beerSearcher.searchList(listOfBeers);
     }
 
     //Populates the right side of SplitPane with Beer class objects and adds functionality from ItemController;
@@ -222,20 +148,14 @@ public class DefaultController implements Initializable {
                 buyButton.setText("€ " +toPrint);
 
                 buyButton.setId("buy" +i);
-                buyButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent mouseEvent) {
-                        try {
-                            addToShoppingCart(buyButton.getId());
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }                    }
+                int iFin = i;
+                buyButton.setOnMouseClicked(mouseEvent -> {
+                    shoppingCart.add(list.get(iFin));
+                    setCartButtonText();
+                    System.out.println(shoppingCart);
                 });
 
-                itemHolder.setId("pane" +i);
-
-                //Setting background color, so that itemHolder appears monolith and casts shadow.
-                itemHolder.setStyle("-fx-background-color:white");
+                itemHolder.getStyleClass().add("item");
                 marketPane.getChildren().add(itemHolder);
 
                 double vSpacing = marketPane.getVgap();
@@ -258,19 +178,14 @@ public class DefaultController implements Initializable {
         double prefWidth = 80;
         double prefHeight = 20;
 
-        Type[] arrayOfBeer = Type.values();
+        Style[] arrayOfBeer = Style.values();
 
-        for (Type type : arrayOfBeer) {
+        for (Style type : arrayOfBeer) {
 
             CheckBox checkBox = new CheckBox();
             checkBox.setPrefWidth(prefWidth);
             checkBox.setPrefHeight(prefHeight);
-            checkBox.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    filterCheckBoxChoice();
-                }
-            });
+            checkBox.setOnAction(event -> filterCheckBoxChoice());
             checkBox.setText(String.valueOf(type));
 
             listOfCheckBoxes.add(checkBox);
@@ -290,7 +205,7 @@ public class DefaultController implements Initializable {
 
                         if (checkBox.isSelected()) {
                             isChecked = true;
-                            if (!filteredList.contains(beer) && checkBox.getText().equals(beer.getType())) {
+                            if (!filteredList.contains(beer) && checkBox.getText().equals(beer.getStyle())) {
                                 filteredList.add(beer);
                             }
                         }
@@ -303,70 +218,10 @@ public class DefaultController implements Initializable {
         }
     }
 
-    public void addToShoppingCart(String id) throws IOException {
-
-        //Gets buyButton id, removes "buy" substring, so that only an int is remaining, then it is passed as index to listOfBeers.
-        String replace = id.substring(0, 3);
-        id = id.replace(replace, "");
-        int index = Integer.parseInt(id);
-
-        //Chooses, which list to add beer form;
-        if (filteredList.isEmpty()) {
-            shoppingCart.add(listOfBeers.get(index));
-        } else {
-            shoppingCart.add(filteredList.get(index));
-        }
-
-        System.out.println(shoppingCart);
-        setCartButtonText();
-    }
-
     public void setCartButtonText() {
-
         double total = shoppingCart.getTotal();
         String toPrint = String.format("%.2f",total);
-
         cartButton.setText("€ " +toPrint);
-
-        if (total > 0) {
-            cartButton.setStyle("-fx-background-color:#66FF66");
-        } else {
-            cartButton.setStyle("");
-        }
-    }
-
-    void switchToCart(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("cart.fxml"));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root, 335, 600);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public void switchToResults (ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("results.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root, 335,600);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    @FXML
-    public void switchToHome (ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("default.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root, 335,600);
-        stage.setScene(scene);
-        stage.show();
-    }
-    @FXML
-    public void switchToAddBeer(ActionEvent event) throws IOException {
-
-        root = FXMLLoader.load(getClass().getResource("addEntry.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root, 335,600);
-        stage.setScene(scene);
-        stage.show();
     }
 }
 

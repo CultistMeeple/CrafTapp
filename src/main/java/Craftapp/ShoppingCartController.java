@@ -2,10 +2,8 @@ package Craftapp;
 
 import Craftapp.domain.Beer.Beer;
 import javafx.fxml.FXML;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -14,12 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.shape.Circle;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -34,15 +27,11 @@ public class ShoppingCartController implements Initializable {
     private Pane navigationPane;
     @FXML
     private Pane titlePane;
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
     private ShoppingCart shoppingCart;
     private Searcher <Beer> beerSearcher;
     private ChoiceBox <String> choiceBox;
     private final String[] sort = {"Sort by name [a-z]", "Sort by name [z-a]", "Sort by price [low - high]", "Sort by price [high-low]"};
     private TextField searchBar;
-    private Button searchButton;
     private Button cartButton;
     private ArrayList<Beer> listOfBeers;
 
@@ -53,7 +42,6 @@ public class ShoppingCartController implements Initializable {
         beerSearcher = Main.beerSearcher;
         listOfBeers = Main.listOfBeers;
 
-        Button homeButton;
         //Sets up navigationPane, with searchBar and navigation buttons.
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -63,10 +51,7 @@ public class ShoppingCartController implements Initializable {
             HBox hBox = (HBox) vBox.getChildren().get(0);
             HBox hBox1 = (HBox) vBox.getChildren().get(1);
 
-            Button addButton = (Button)hBox1.getChildren().get(1);
-            homeButton = (Button)hBox1.getChildren().get(0);
             choiceBox = (ChoiceBox<String>)hBox1.getChildren().get(2);
-            searchButton = (Button)hBox.getChildren().get(1);
             searchBar = (TextField) hBox.getChildren().get(0);
             navigationPane.getChildren().add(vBox);
 
@@ -90,17 +75,6 @@ public class ShoppingCartController implements Initializable {
         
          */
 
-        homeButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                try {
-                    switchToHome(event);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
-
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("title.fxml"));
@@ -117,29 +91,6 @@ public class ShoppingCartController implements Initializable {
         setCartButtonText();
 
         searchBar.setText(beerSearcher.getPhrase());
-        searchBar.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                search();
-                try {
-                    switchToResults(event);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
-
-        searchButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                search();
-                try {
-                    switchToResults(event);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
 
         generate();
     }
@@ -169,58 +120,50 @@ public class ShoppingCartController implements Initializable {
             priceLabel.setText("€ " +price);
             HBox buttons = (HBox) control.getChildren().get(2);
             Button removeButton = (Button)buttons.getChildren().get(3);
-            removeButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    shoppingCart.remove(beer);
-                    generate();
-                }
+            removeButton.setOnAction(event -> {
+                shoppingCart.remove(beer);
+                generate();
             });
 
             //Makes the button round;
+            /*
             double r = 12;
             removeButton.setShape(new Circle(r));
             removeButton.setMinSize(r*2, r*2);
             removeButton.setMaxSize(r*2, r*2);
 
+             */
+
+            removeButton.getStyleClass().add("remove-button");
+
             Button plusButton = (Button) buttons.getChildren().get(0);
             TextField countField = (TextField) buttons.getChildren().get(1);
-            plusButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    shoppingCart.add(beer);
-                    countField.setText(String.valueOf(shoppingCart.getCount(beer)));
-                    generate();
-                }
-
+            plusButton.setOnAction(event -> {
+                shoppingCart.add(beer);
+                countField.setText(String.valueOf(shoppingCart.getCount(beer)));
+                generate();
             });
             countField.setText(String.valueOf(shoppingCart.getCount(beer)));
 
-            countField.setOnKeyTyped(new EventHandler<KeyEvent>() {
-                @Override
-                public void handle(KeyEvent keyEvent) {
-                    int count = 0;
-                    try {
-                        count = Integer.parseInt(countField.getText());
-                    } catch (Exception e) {
-                                            }
-                    shoppingCart.setCount(beer,count);
-                    generate();
+            countField.setOnKeyTyped(keyEvent -> {
+                int count = 0;
+                try {
+                    count = Integer.parseInt(countField.getText());
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+                shoppingCart.setCount(beer,count);
+                generate();
             });
 
             Button minusButton = (Button) buttons.getChildren().get(2);
-            minusButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    shoppingCart.decrease(beer);
-                    countField.setText(String.valueOf(shoppingCart.getCount(beer)));
-                    generate();
-                }
+            minusButton.setOnAction(event -> {
+                shoppingCart.decrease(beer);
+                countField.setText(String.valueOf(shoppingCart.getCount(beer)));
+                generate();
             });
 
-            itemHolder.setStyle("-fx-background-color: white");
-            itemHolder.setStyle("-fx-background-color: white; -fx-effect: dropshadow(three-pass-box,#00000033,10,0.0,0,0)");
+            itemHolder.getStyleClass().add("item");
             contentsView.getChildren().add(itemHolder);
         }
 
@@ -230,70 +173,9 @@ public class ShoppingCartController implements Initializable {
         setCartButtonText();
     }
 
-
     public void setCartButtonText() {
-
         double total = shoppingCart.getTotal();
-
-        if (total > 0) {
-            cartButton.setStyle("-fx-background-color:#66FF66");
-
-        } else {
-            cartButton.setStyle("");
-        }
-
         String toPrint = String.format("%.2f",total);
-
         cartButton.setText("€ " +toPrint);
     }
-
-    private void search() {
-        String input = searchBar.getText();
-        input = input.trim();
-        //Clear to reset the internal list.
-        beerSearcher.clear();
-        beerSearcher.setPhrase(input);
-        beerSearcher.searchList(listOfBeers);
-    }
-
-    public void switchToResults (ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("results.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root, 335,600);
-        stage.setScene(scene);
-        stage.show();
-    }
-    public void switchToHome (ActionEvent event) throws IOException {
-
-        root = FXMLLoader.load(getClass().getResource("default.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root, 335,600);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public void switchToAddBeer(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("addEntry.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root, 335,600);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    void switchToAddBrewery(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("addBrewery.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root, 335,600);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    void switchToAddShop(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("addShop.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root, 335,600);
-        stage.setScene(scene);
-        stage.show();
-    }
-
 }

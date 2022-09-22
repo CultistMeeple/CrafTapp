@@ -79,15 +79,6 @@ public class AddController implements Initializable {
         }
     }
     @FXML
-    public void switchToHome (ActionEvent event) throws IOException {
-
-        root = FXMLLoader.load(getClass().getResource("default.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root, 335,600);
-        stage.setScene(scene);
-        stage.show();
-    }
-    @FXML
     public void switchToAddBeer(ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("addEntry.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -118,22 +109,12 @@ public class AddController implements Initializable {
 
     }
 
-    @FXML
-    void switchToCart(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("cart.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root, 335,600);
-        stage.setScene(scene);
-        stage.show();
-
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         TreeItem<String> treeRoot = new TreeItem<>("Latvia");
-        TreeItem <String> branch1 = new TreeItem<>("Breweries");
-        TreeItem <String> branch2 = new TreeItem<>("Beers");
+        TreeItem<String> branch1 = new TreeItem<>("Breweries");
+        TreeItem<String> branch2 = new TreeItem<>("Beers");
 
         if (treeView != null) {
             treeView.setRoot(treeRoot);
@@ -169,17 +150,5 @@ public class AddController implements Initializable {
             }
         });
 
-        homeButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                try {
-
-                    switchToHome(event);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
     }
-
 }

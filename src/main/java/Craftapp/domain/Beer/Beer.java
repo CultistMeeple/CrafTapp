@@ -8,12 +8,10 @@ import java.util.Objects;
 public abstract class Beer{
     private String name;
     private final Brewery brewery;
-    private Type type;
+    private Style style;
     private double price;
     private double abv;
     private double volume;
-    private boolean isOnSale;
-    private double discount;
     private Image image;
 
     public Beer (String name, Brewery brewery, double abv, double volume, double price) {
@@ -24,27 +22,16 @@ public abstract class Beer{
         this.price = price;
     }
 
-    public void setType(Type type) {
-        this.type = type;
-        isOnSale = false;
-        discount = 0;
+    public void setStyle(Style style) {
+        this.style = style;
     }
 
-    public String getType() {
-        return String.valueOf(type);
+    public String getStyle() {
+        return String.valueOf(style);
     }
 
     public Brewery getBrewery() {
         return brewery;
-    }
-
-    public void setDiscount(double discount) {
-        if (discount == 0) {
-            isOnSale = false;
-        } else {
-            isOnSale = true;
-            this.discount = discount;
-        }
     }
 
     public void setName(String name) {
@@ -92,7 +79,7 @@ public abstract class Beer{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Beer beer)) return false;
-        return name.equals(beer.name) && Objects.equals(brewery, beer.brewery) && type == beer.type;
+        return name.equals(beer.name) && Objects.equals(brewery, beer.brewery) && style == beer.style;
     }
 
     @Override
