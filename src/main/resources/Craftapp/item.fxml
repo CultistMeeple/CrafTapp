@@ -10,42 +10,43 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="itemBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="140.0" prefWidth="105.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Craftapp.MarketController">
-   <children>
-      <Pane fx:id="itemPane" prefHeight="105.0" prefWidth="105.0">
-         <children>
-            <ImageView fx:id="beerImage" fitHeight="150.0" fitWidth="105.0" pickOnBounds="true" preserveRatio="true" />
-         </children>
-      </Pane>
-      <VBox prefWidth="100.0">
-         <children>
-            <Label fx:id="beerName" alignment="CENTER" contentDisplay="CENTER" prefWidth="105.0" text="Label">
-               <font>
-                  <Font name="Arial Bold" size="12.0" />
-               </font>
-            </Label>
-            <Button fx:id="buyButton" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" prefWidth="50.0" text="Buy" VBox.vgrow="ALWAYS">
-               <font>
-                  <Font name="Arial" size="10.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="30.0" />
-               </VBox.margin>
-            </Button>
-         </children>
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </VBox>
-   </children>
+<VBox fx:id="itemBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+      minWidth="-Infinity" prefHeight="140.0" prefWidth="105.0" xmlns="http://javafx.com/javafx/18"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="Craftapp.control.MarketController">
    <effect>
       <DropShadow>
          <color>
-            <Color opacity="0.20000000298023224" />
+            <Color opacity="0.20000000298023224"/>
          </color>
       </DropShadow>
    </effect>
    <opaqueInsets>
-      <Insets />
+      <Insets/>
    </opaqueInsets>
+   <Pane fx:id="itemPane" prefHeight="105.0" prefWidth="105.0">
+      <children>
+         <ImageView fx:id="beerImage" fitHeight="150.0" fitWidth="105.0" pickOnBounds="true" preserveRatio="true"/>
+      </children>
+   </Pane>
+   <VBox alignment="BOTTOM_LEFT" prefWidth="100.0">
+      <children>
+         <Label fx:id="beerName" alignment="CENTER" contentDisplay="CENTER" prefWidth="105.0" text="Label">
+            <font>
+               <Font name="Arial Bold" size="12.0"/>
+            </font>
+         </Label>
+         <Button fx:id="buyButton" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false"
+                 mnemonicParsing="false" prefWidth="50.0" text="Buy" textAlignment="CENTER" VBox.vgrow="ALWAYS">
+            <font>
+               <Font name="Arial" size="10.0"/>
+            </font>
+            <VBox.margin>
+               <Insets left="30.0"/>
+            </VBox.margin>
+         </Button>
+      </children>
+      <opaqueInsets>
+         <Insets/>
+      </opaqueInsets>
+   </VBox>
 </VBox>

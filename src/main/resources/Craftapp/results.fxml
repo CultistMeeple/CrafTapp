@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Craftapp.SearchController">
+<AnchorPane prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Craftapp.control.SearchController">
    <children>
       <Pane fx:id="titlePane" layoutX="5.0" layoutY="5.0" prefHeight="70.0" prefWidth="335.0" />
     <AnchorPane layoutY="135.0" minHeight="0.0" prefHeight="460.0" prefWidth="335.0">

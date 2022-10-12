@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="335.0" spacing="5.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Craftapp.AddController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="335.0" spacing="5.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Craftapp.control.AddController">
     <padding>
         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
     </padding>
@@ -28,7 +28,7 @@
                         <Font name="System Bold" size="24.0" />
                     </font>
                 </Label>
-                <Button fx:id="cartButton" focusTraversable="false" layoutX="260.0" mnemonicParsing="false" onAction="#switchToCart">
+                <Button fx:id="cartButton" focusTraversable="false" layoutX="260.0" mnemonicParsing="false">
                     <graphic>
                         <ImageView fx:id="cartIcon" fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -40,11 +40,6 @@
                         </ImageView>
                     </graphic>
                 </Button>
-                <ImageView id="beerMug" fx:id="beerMug" fitHeight="48.0" fitWidth="48.0" layoutX="160.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../img/beer48px.png" />
-                    </image>
-                </ImageView>
             </children>
         </Pane>
         <Pane prefHeight="65.0" prefWidth="325.0">

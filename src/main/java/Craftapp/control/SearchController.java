@@ -1,14 +1,14 @@
-package Craftapp;
+package Craftapp.control;
 
 import Craftapp.domain.Beer.Beer;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import Craftapp.util.Searcher;
+import Craftapp.util.ShoppingCart;
+import Craftapp.util.Sorter;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 
 import java.io.IOException;
@@ -25,9 +25,8 @@ public class SearchController implements Initializable {
     private VBox resultsView;
     private ChoiceBox <String> choiceBox;
     private ShoppingCart shoppingCart;
-    private Button cartButton;
     private TextField searchBar;
-    private Searcher <Beer> beerSearcher;
+    private Searcher<Beer> beerSearcher;
     private ArrayList <Beer> listOfBeers;
     private final String[] sort = {"Sort by name [a-z]", "Sort by name [z-a]", "Sort by price [low - high]", "Sort by price [high-low]"};
     private Sorter sorter;
@@ -42,7 +41,7 @@ public class SearchController implements Initializable {
         //Sets up navigationPane, with searchBar and navigation buttons.
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("navigation.fxml"));
+            loader.setLocation(getClass().getResource("/Craftapp/navigation.fxml"));
             Pane vBox = loader.load();
             vBox = (VBox) vBox.getChildren().get(0);
             HBox hBox = (HBox) vBox.getChildren().get(0);
@@ -66,7 +65,7 @@ public class SearchController implements Initializable {
 
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("title.fxml"));
+            loader.setLocation(getClass().getResource("/Craftapp/title.fxml"));
             Pane pane = loader.load();
             pane = (Pane)pane.getChildren().get(0);
             titlePane.getChildren().add(pane);
@@ -74,14 +73,6 @@ public class SearchController implements Initializable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        Pane testPane = (Pane) titlePane.getChildren().get(0);
-        cartButton = (Button) testPane.getChildren().get(2);
-
-        setCartButtonText();
-
-        searchBar.setText(beerSearcher.getPhrase());
-
         generateResults(beerSearcher.getResults());
 
     }
@@ -144,16 +135,4 @@ public class SearchController implements Initializable {
         generateResults(beerSearcher.getResults());
     }
 
-
-    public void setCartButtonText() {
-
-        double total = shoppingCart.getTotal();
-        String toPrint = String.format("%.2f",total);
-
-        cartButton.setText("€ " +toPrint);
-
-        if (shoppingCart.getTotal() > 0) {
-            cartButton.setStyle("-fx-background-color:#66FF66");
-        }
-    }
 }

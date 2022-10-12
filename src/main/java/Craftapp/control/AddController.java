@@ -1,4 +1,4 @@
-package Craftapp;
+package Craftapp.control;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -80,7 +80,7 @@ public class AddController implements Initializable {
     }
     @FXML
     public void switchToAddBeer(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("addEntry.fxml"));
+        root = FXMLLoader.load(getClass().getResource("/Craftapp/addEntry.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root, 335,600);
         stage.setScene(scene);
@@ -88,7 +88,7 @@ public class AddController implements Initializable {
     }
     @FXML
     void switchToAddBrewery(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("addBrewery.fxml"));
+        root = FXMLLoader.load(getClass().getResource("/Craftapp/addBrewery.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root, 335,600);
         stage.setScene(scene);
@@ -97,16 +97,11 @@ public class AddController implements Initializable {
 
     @FXML
     void switchToAddShop(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("addShop.fxml"));
+        root = FXMLLoader.load(getClass().getResource("/Craftapp/addShop.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root, 335,600);
         stage.setScene(scene);
         stage.show();
-    }
-
-    @FXML
-    void addToShoppingCart(MouseEvent event) {
-
     }
 
     @Override

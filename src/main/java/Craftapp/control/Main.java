@@ -1,17 +1,22 @@
-package Craftapp;
+package Craftapp.control;
 
 import Craftapp.domain.Beer.*;
 import Craftapp.domain.Brewery.BreweryLatvia;
+import Craftapp.util.SceneSwitcher;
+import Craftapp.util.Searcher;
+import Craftapp.util.ShoppingCart;
+import Craftapp.util.Sorter;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Main extends Application {
     protected static ArrayList <Beer> listOfBeers;
-    protected static Searcher <Beer> beerSearcher;
+    protected static Searcher<Beer> beerSearcher;
     protected static ShoppingCart shoppingCart;
     public static SceneSwitcher switcher;
     public static Sorter sorter;
@@ -22,11 +27,12 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
 
         switcher.setStage(stage);
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("default.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/Craftapp/default.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), width, height);
-        scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/style.css")).toExternalForm());
         stage.setTitle("Hopp");
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 

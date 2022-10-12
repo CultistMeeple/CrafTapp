@@ -1,16 +1,14 @@
-package Craftapp;
+package Craftapp.control;
 
 import Craftapp.domain.Beer.Beer;
 import Craftapp.domain.Beer.Style;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import Craftapp.util.ShoppingCart;
+import Craftapp.util.Sorter;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
 import java.io.IOException;
@@ -19,13 +17,8 @@ import java.util.*;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 
 public class DefaultController implements Initializable {
-    @FXML
-    public Button cartButton;
-    @FXML
-    private TextField searchBar;
     @FXML
     private TilePane marketPane;
     @FXML
@@ -39,7 +32,7 @@ public class DefaultController implements Initializable {
     @FXML
     private Pane titlePane;
     @FXML
-    private ChoiceBox <String>choiceBox;
+    private ChoiceBox <String> choiceBox;
     private final String[] sort = {"Sort by name [a-z]", "Sort by name [z-a]", "Sort by price [low - high]", "Sort by price [high-low]"};
     private ShoppingCart shoppingCart;
     private final ArrayList<Beer> listOfBeers = Main.listOfBeers;
@@ -47,38 +40,30 @@ public class DefaultController implements Initializable {
     private ArrayList <CheckBox> listOfCheckBoxes;
     @FXML
     private Pane navigationPane;
-    private Searcher <Beer> beerSearcher;
     private Sorter sorter;
-    private SceneSwitcher switcher;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        switcher = Main.switcher;
+
         sorter = Main.sorter;
         shoppingCart = Main.shoppingCart;
         listOfCheckBoxes = new ArrayList<>();
-        beerSearcher = Main.beerSearcher;
         filteredList = new ArrayList<>();
 
-        //Sets up navigationPane, with searchBar and navigation buttons.
+        //Sets up navigationPane
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("navigation.fxml"));
+            loader.setLocation(getClass().getResource("/Craftapp/navigation.fxml"));
             Pane vBox = loader.load();
             vBox = (VBox) vBox.getChildren().get(0);
-            HBox hBox = (HBox) vBox.getChildren().get(0);
             HBox hBox1 = (HBox) vBox.getChildren().get(1);
 
             choiceBox = (ChoiceBox<String>)hBox1.getChildren().get(2);
-            searchBar = (TextField) hBox.getChildren().get(0);
             navigationPane.getChildren().add(vBox);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        //Shows the previous search.
-        searchBar.setText(beerSearcher.getPhrase());
 
         choiceBox.getItems().addAll(sort);
         choiceBox.setValue(sort[0]);
@@ -94,7 +79,7 @@ public class DefaultController implements Initializable {
 
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("title.fxml"));
+            loader.setLocation(getClass().getResource("/Craftapp/title.fxml"));
             Pane pane = loader.load();
             pane = (Pane)pane.getChildren().get(0);
             titlePane.getChildren().add(pane);
@@ -102,11 +87,6 @@ public class DefaultController implements Initializable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        Pane testPane = (Pane) titlePane.getChildren().get(0);
-        cartButton = (Button) testPane.getChildren().get(2);
-        setCartButtonText();
-
     }
 
     //Populates the right side of SplitPane with Beer class objects and adds functionality from ItemController;
@@ -132,7 +112,7 @@ public class DefaultController implements Initializable {
 
             for (int i = 0; i < list.size(); i++) {
                 FXMLLoader itemLoader = new FXMLLoader();
-                itemLoader.setLocation(getClass().getResource("item.fxml"));
+                itemLoader.setLocation(getClass().getResource("/Craftapp/item.fxml"));
                 itemHolder = itemLoader.load();
                 Pane itemPane = (Pane) itemHolder.getChildren().get(0);
                 beerImage = (ImageView) itemPane.getChildren().get(0);
@@ -147,13 +127,10 @@ public class DefaultController implements Initializable {
                 String toPrint = String.format("%.2f",list.get(i).getPrice());
                 buyButton.setText("€ " +toPrint);
 
-                buyButton.setId("buy" +i);
+                buyButton.setId("buyButton");
+
                 int iFin = i;
-                buyButton.setOnMouseClicked(mouseEvent -> {
-                    shoppingCart.add(list.get(iFin));
-                    setCartButtonText();
-                    System.out.println(shoppingCart);
-                });
+                buyButton.setOnMouseClicked(mouseEvent -> shoppingCart.add(list.get(iFin)));
 
                 itemHolder.getStyleClass().add("item");
                 marketPane.getChildren().add(itemHolder);
@@ -217,13 +194,4 @@ public class DefaultController implements Initializable {
             generateBeer(filteredList);
         }
     }
-
-    public void setCartButtonText() {
-        double total = shoppingCart.getTotal();
-        String toPrint = String.format("%.2f",total);
-        cartButton.setText("€ " +toPrint);
-    }
 }
-
-
-

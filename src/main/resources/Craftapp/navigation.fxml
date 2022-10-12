@@ -8,26 +8,20 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Craftapp.NavigationController">
+<AnchorPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Craftapp.control.NavigationController">
    <children>
-      <VBox prefWidth="335.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-            AnchorPane.topAnchor="0.0">
+      <VBox prefWidth="335.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <padding>
-            <Insets left="5.0" right="5.0" top="5.0"/>
+            <Insets left="5.0" right="5.0" top="5.0" />
          </padding>
          <HBox prefHeight="30.0" prefWidth="200.0" spacing="5.0">
-            <TextField id="search" fx:id="searchBar" alignment="CENTER" focusTraversable="false"
-                       onAction="#switchToResults" prefHeight="25.0" prefWidth="265.0" promptText="Search"/>
-            <Button fx:id="searchButton" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false"
-                    mnemonicParsing="false" onAction="#switchToResults" prefHeight="25.0" prefWidth="60.0"
-                    text="Search"/>
+            <TextField id="search" fx:id="searchBar" alignment="CENTER" focusTraversable="false" onAction="#switchToResults" prefHeight="25.0" prefWidth="265.0" promptText="Search" />
+            <Button fx:id="searchButton" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#switchToResults" prefHeight="25.0" prefWidth="60.0" text="Search" />
          </HBox>
          <HBox layoutY="35.0" prefHeight="30.0" prefWidth="335.0" spacing="5.0">
-            <Button fx:id="homeButton" focusTraversable="false" mnemonicParsing="false" onAction="#switchToHome"
-                    prefWidth="50.0" text="Home"/>
-            <Button fx:id="addButton" focusTraversable="false" mnemonicParsing="false" onAction="#switchToAdd"
-                    prefWidth="50.0" text="Add"/>
-            <ChoiceBox fx:id="choiceBox" focusTraversable="false" prefHeight="25.0" prefWidth="160.0"/>
+            <Button fx:id="homeButton" focusTraversable="false" mnemonicParsing="false" onAction="#switchToHome" prefWidth="50.0" text="Home" />
+            <Button fx:id="addButton" focusTraversable="false" mnemonicParsing="false" onAction="#switchToAdd" prefWidth="50.0" text="Add" />
+            <ChoiceBox fx:id="choiceBox" focusTraversable="false" prefHeight="25.0" prefWidth="160.0" />
          </HBox>
       </VBox>
    </children>

@@ -1,4 +1,4 @@
-package Craftapp;
+package Craftapp.util;
 
 import Craftapp.domain.Beer.Beer;
 
@@ -92,12 +92,10 @@ public class Sorter {
         //https://docs.oracle.com/javase/tutorial/i18n/text/rule.html
         //https://docs.oracle.com/javase/9/docs/api/java/text/RuleBasedCollator.html
 
-        String latvianRules = ("< a,A < ā,Ā < b,B < c,C < č,Č < d,D " +
-                "< e,E < ē,Ē < f,F < g,G < ģ,Ģ < h,H < i,I < ī,Ī < j,J " +
-                "< k,K < ķ,Ķ < l,L < ļ,Ļ < m,M < n,N < ņ,Ņ < o,O < p,P " +
-                "< q,Q < r,R < s,S < š,Š < t,T < u,U < ū,Ū < v,V < w,W " +
-                "< x,X < y,Y < z,Z < ž,Ž");
-
-        return latvianRules;
+        return ("< 0 < 1 < 2 < 3 < 4 < 5 < 6 < 7 < 8 < 9 < a,A < ā,Ā < b,B" +
+                " < c,C < č,Č < d,D < e,E < ē,Ē < f,F < g,G < ģ,Ģ < h,H " +
+                "< i,I < ī,Ī < j,J < k,K < ķ,Ķ < l,L < ļ,Ļ < m,M < n,N < ņ,Ņ " +
+                "< o,O < p,P < q,Q < r,R < s,S < š,Š < t,T < u,U < ū,Ū < v,V " +
+                "< w,W < x,X < y,Y < z,Z < ž,Ž");
     }
 }

@@ -1,4 +1,4 @@
-package Craftapp;
+package Craftapp.util;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,10 +26,10 @@ public class SceneSwitcher {
                 Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(file)));
                 Scene scene = new Scene(root, width, height);
                 scene.getStylesheets().add(css);
-                scene.getStylesheets().add(css);
                 stage.setScene(scene);
                 stage.show();
             } catch (Exception e) {
+                System.out.println("SceneSwitcher: Failed to switch scenes.");
                 e.printStackTrace();
             }
         }
@@ -40,10 +40,11 @@ public class SceneSwitcher {
 
     private String getFxml (String target) {
         return switch (target) {
-            case "home" -> "default.fxml";
-            case "results" -> "results.fxml";
-            case "cart" -> "cart.fxml";
-            case "add" -> "addEntry.fxml";
+            case "home" -> "/Craftapp/default.fxml";
+            case "results" -> "/Craftapp/results.fxml";
+            case "cart" -> "/Craftapp/cart.fxml";
+            //Currently disabled "Add" button
+            //case "add" -> "addEntry.fxml";
             default -> null;
         };
     }

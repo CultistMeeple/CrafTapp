@@ -1,6 +1,10 @@
-package Craftapp;
+package Craftapp.control;
+
 import Craftapp.domain.Beer.Beer;
-import javafx.event.ActionEvent;
+import Craftapp.util.SceneSwitcher;
+import Craftapp.util.Searcher;
+import Craftapp.util.ShoppingCart;
+import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -18,7 +22,7 @@ public class NavigationController implements Initializable {
     @FXML
     private Button addButton;
     @FXML
-    private ChoiceBox<?> choiceBox;
+    private ChoiceBox<String> choiceBox;
     @FXML
     private Button homeButton;
     @FXML
@@ -42,7 +46,7 @@ public class NavigationController implements Initializable {
     private SceneSwitcher switcher;
     private ArrayList<Beer> listOfBeers;
     private ShoppingCart shoppingCart;
-    private Searcher <Beer> beerSearcher;
+    private Searcher<Beer> beerSearcher;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -50,6 +54,24 @@ public class NavigationController implements Initializable {
         listOfBeers = Main.listOfBeers;
         shoppingCart = Main.shoppingCart;
         beerSearcher = Main.beerSearcher;
+
+        //Automatically updates text shown on cartButton
+        if (cartButton != null) {
+            new AnimationTimer() {
+                @Override
+                public void handle(long now) {
+                    double total = shoppingCart.getTotal();
+                    String toPrint = String.format("%.2f", total);
+                    cartButton.setText("€ " + toPrint);
+                }
+            }.start();
+        }
+
+        //Makes searchBar show the previous search phrase.
+        if (searchBar != null) {
+            searchBar.setText(beerSearcher.getPhrase());
+
+        }
     }
 
     @FXML
@@ -79,5 +101,6 @@ public class NavigationController implements Initializable {
         beerSearcher.clear();
         beerSearcher.setPhrase(input);
         beerSearcher.searchList(listOfBeers);
+
     }
 }

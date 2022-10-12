@@ -1,4 +1,4 @@
-package Craftapp;
+package Craftapp.util;
 
 import Craftapp.domain.Beer.Beer;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ public class ShoppingCart {
 
     public void add(Beer beer) {
 
-        if (contents.containsKey(beer)) {
+        if (contains(beer)) {
             int count = contents.get(beer);
             count++;
             contents.put(beer, count);
@@ -24,7 +24,7 @@ public class ShoppingCart {
     }
 
     public void decrease(Beer beer) {
-        if (contents.containsKey(beer)) {
+        if (contains(beer)) {
             int count = contents.get(beer);
             count--;
 
@@ -37,7 +37,13 @@ public class ShoppingCart {
     }
 
     public void remove (Beer beer) {
-        contents.remove(beer);
+        if (contains(beer)) {
+            contents.remove(beer);
+        }
+    }
+
+    public boolean contains (Beer beer) {
+        return contents.containsKey(beer);
     }
 
     public double getTotal() {
@@ -55,14 +61,13 @@ public class ShoppingCart {
 
     public void setCount (Beer beer, int count) {
 
-        if (contents.containsKey(beer)) {
+        if (contains(beer)) {
             contents.put(beer, count);
         }
     }
 
     public int getCount(Beer beer) {
-
-        if (contents.containsKey(beer)) {
+        if (contains(beer)) {
             return contents.get(beer);
         }
         return 0;

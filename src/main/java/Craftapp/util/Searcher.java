@@ -1,4 +1,4 @@
-package Craftapp;
+package Craftapp.util;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -51,15 +51,13 @@ public class Searcher <T> {
             //System.out.println("Regex: " +regex);
             Pattern pattern = Pattern.compile(regex);
 
-            for (T object : list) {
-
+            list.forEach(object -> {
                 Matcher matcher = pattern.matcher(object.toString());
                 boolean match = matcher.find();
-
                 if (match) {
                     add(object);
                 }
-            }
+            });
         }
     }
 }
